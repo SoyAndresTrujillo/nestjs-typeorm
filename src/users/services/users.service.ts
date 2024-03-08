@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, Inject, NotFoundException } from '@nestjs/common';
 
 import { User } from '../entities/user.entity';
 import { Order } from '../entities/order.entity';
@@ -8,7 +8,10 @@ import { ProductsService } from '../../products/services/products.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private productsService: ProductsService) {}
+  constructor(
+    private productsService: ProductsService,
+    @Inject('API_KEY_ENVIROMENT') private API_KEY_ENVIROMENT: string,
+  ) {}
 
   private counterId = 1;
   private users: User[] = [
@@ -67,6 +70,6 @@ export class UsersService {
       date: new Date(),
       user,
       products: this.productsService.findAll(),
-    }
+    };
   }
 }
