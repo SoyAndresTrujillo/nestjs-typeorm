@@ -1,4 +1,5 @@
 import { Injectable, Inject, NotFoundException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 import { User } from '../entities/user.entity';
 import { Order } from '../entities/order.entity';
@@ -10,7 +11,7 @@ import { ProductsService } from '../../products/services/products.service';
 export class UsersService {
   constructor(
     private productsService: ProductsService,
-    @Inject('API_KEY_ENVIROMENT') private API_KEY_ENVIROMENT: string,
+    private configServide: ConfigService,
   ) {}
 
   private counterId = 1;
@@ -24,6 +25,8 @@ export class UsersService {
   ];
 
   findAll() {
+    const API_KEY_QA = this.configServide.get('API_KEY_QA');
+    console.log(API_KEY_QA);
     return this.users;
   }
 
