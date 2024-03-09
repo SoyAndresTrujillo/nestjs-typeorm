@@ -1,11 +1,12 @@
 import { Injectable, Inject } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AppService {
-  constructor(
-    @Inject('API_KEY_ENVIROMENT') private API_KEY_ENVIROMENT: string,
-  ) {}
+  constructor(private configServide: ConfigService) {}
   getHello(): string {
-    return `Hello World! ${this.API_KEY_ENVIROMENT}`;
+    const API_KEY = this.configServide.get('API_KEY');
+    const CONECTION_MONGO_DB = this.configServide.get('CONECTION_MONGO_DB');
+    return `Hello World!, that is my API_KEY: ${API_KEY} and CONECTION_MONGO_DB: ${CONECTION_MONGO_DB}`;
   }
 }
