@@ -1,6 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,macos,node,react,dotenv
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,macos,node,react,dotenv
 
+### postgres ###
+/postgres_data
+
 ### dotenv ###
 .env
 
