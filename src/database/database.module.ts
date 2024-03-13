@@ -22,6 +22,8 @@ const API_KEY_PROD = 'key prod';
           database,
           password,
           port,
+          autoLoadEntities: true,
+          synchronize: true,
         };
       },
     }),

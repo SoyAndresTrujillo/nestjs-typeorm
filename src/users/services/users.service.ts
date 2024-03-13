@@ -61,7 +61,7 @@ export class UsersService {
     return true;
   }
 
-  getOrderByUser(id: number): Order {
+  getOrderByUser(id: number) {
     const user = this.findOne(id);
     return {
       date: new Date(),
