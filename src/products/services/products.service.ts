@@ -35,11 +35,6 @@ export class ProductsService {
   }
 
   remove(id: number) {
-    const index = this.products.findIndex((item) => item.id === id);
-    if (index === -1) {
-      throw new NotFoundException(`Product #${id} not found`);
-    }
-    this.products.splice(index, 1);
-    return true;
+    this.productRepository.delete(id);
   }
 }
