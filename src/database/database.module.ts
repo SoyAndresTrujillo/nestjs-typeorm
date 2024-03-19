@@ -23,7 +23,7 @@ const API_KEY_PROD = 'key prod';
           password,
           port,
           autoLoadEntities: true,
-          synchronize: true,
+          synchronize: false,
         };
       },
     }),
