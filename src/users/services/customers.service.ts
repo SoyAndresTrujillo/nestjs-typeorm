@@ -5,16 +5,6 @@ import { CreateCustomerDto, UpdateCustomerDto } from '../dtos/customer.dto';
 
 @Injectable()
 export class CustomersService {
-  private counterId = 1;
-  private customers: Customer[] = [
-    {
-      id: 1,
-      name: 'Nicolas',
-      lastName: 'Molina',
-      phone: '3111111212',
-    },
-  ];
-
   findAll() {
     return this.customers;
   }
