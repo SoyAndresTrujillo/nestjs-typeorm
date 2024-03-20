@@ -1,11 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 import { User } from '../entities/user.entity';
 import { CreateUserDto, UpdateUserDto } from '../dtos/user.dto';
 
 import { ProductsService } from '../../products/services/products.service';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+
+import { CustomersService } from './customers.service';
 
 @Injectable()
 export class UsersService {
@@ -13,10 +15,13 @@ export class UsersService {
     private productsService: ProductsService,
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    private customersService: CustomersService,
   ) {}
 
   findAll() {
-    return this.userRepository.find();
+    return this.userRepository.find({
+      relations: ['customer'],
+    });
   }
 
   async findOne(id: number) {
@@ -27,9 +32,13 @@ export class UsersService {
     return user;
   }
 
-  create(data: CreateUserDto) {
-    const response = this.userRepository.create(data);
-    return this.userRepository.save(response);
+  async create(data: CreateUserDto) {
+    const newUser = this.userRepository.create(data);
+    if (data.customer_id) {
+      const customer = await this.customersService.findOne(data.customer_id);
+      newUser.customer = customer;
+    }
+    return this.userRepository.save(newUser);
   }
 
   async update(id: number, changes: UpdateUserDto) {
