@@ -1,19 +1,36 @@
-import { Entity, PrimaryColumn, Column, OneToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryColumn,
+  Column,
+  OneToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 import { User } from './user.entity';
-import { Name } from './name.entity';
-import { Date } from './date.entity';
 
 @Entity()
 export class Customer {
   @PrimaryColumn()
   id: number;
 
-  @Column(() => Name)
-  name: Name;
+  @Column({ type: 'varchar', length: 255 })
+  first_name: string;
 
-  @Column(() => Date)
-  date: Date;
+  @Column({ type: 'varchar', length: 255 })
+  last_name: string;
+
+  @CreateDateColumn({
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  create_at: Date;
+
+  @UpdateDateColumn({
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  update_at: Date;
 
   @Column({ type: 'varchar', length: 255 })
   phone: string;
