@@ -2,10 +2,9 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  OneToOne,
-  JoinColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
 } from 'typeorm';
 
 import { Customer } from './customer.entity';
@@ -42,7 +41,6 @@ export class User {
   })
   update_at: Date;
 
-  @OneToOne(() => Customer, (customer) => customer.user, { nullable: true })
-  @JoinColumn()
+  @ManyToOne(() => Customer, (customer) => customer.users, { nullable: true })
   customer: Customer;
 }

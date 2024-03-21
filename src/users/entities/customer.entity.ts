@@ -2,11 +2,9 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  OneToOne,
   CreateDateColumn,
   UpdateDateColumn,
-  ManyToMany,
-  ManyToOne,
+  OneToMany,
 } from 'typeorm';
 
 import { User } from './user.entity';
@@ -37,6 +35,6 @@ export class Customer {
   @Column({ type: 'varchar', length: 255 })
   phone: string;
 
-  @OneToOne(() => User, (user) => user.customer, { nullable: true })
-  user: User;
+  @OneToMany(() => User, (user) => user.customer, { nullable: true })
+  users: User[];
 }
