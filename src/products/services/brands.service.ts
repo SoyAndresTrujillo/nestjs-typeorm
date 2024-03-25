@@ -1,25 +1,21 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 import { Brand } from '../entities/brand.entity';
 import { CreateBrandDto, UpdateBrandDto } from '../dtos/brand.dto';
 
 @Injectable()
 export class BrandsService {
-  private counterId = 1;
-  private brands: Brand[] = [
-    {
-      id: 1,
-      name: 'Brand 1',
-      image: 'https://i.imgur.com/U4iGx1j.jpeg',
-    },
-  ];
-
+  constructor(
+    @InjectRepository(Brand) private brandRepository: Repository<Brand>,
+  ) {}
   findAll() {
-    return this.brands;
+    return this.brandRepository.find();
   }
 
-  findOne(id: number) {
-    const product = this.brands.find((item) => item.id === id);
+  async findOne(id: number) {
+    const product = await this.brandRepository.findOneBy({ id });
     if (!product) {
       throw new NotFoundException(`Brand #${id} not found`);
     }
@@ -27,31 +23,17 @@ export class BrandsService {
   }
 
   create(data: CreateBrandDto) {
-    this.counterId = this.counterId + 1;
-    const newBrand = {
-      id: this.counterId,
-      ...data,
-    };
-    this.brands.push(newBrand);
-    return newBrand;
+    const newBrand = this.brandRepository.create(data);
+    return this.brandRepository.save(newBrand);
   }
 
-  update(id: number, changes: UpdateBrandDto) {
-    const brand = this.findOne(id);
-    const index = this.brands.findIndex((item) => item.id === id);
-    this.brands[index] = {
-      ...brand,
-      ...changes,
-    };
-    return this.brands[index];
+  async update(id: number, changes: UpdateBrandDto) {
+    const brand = await this.findOne(id);
+    this.brandRepository.merge(brand, changes);
+    return this.brandRepository.save(brand);
   }
 
   remove(id: number) {
-    const index = this.brands.findIndex((item) => item.id === id);
-    if (index === -1) {
-      throw new NotFoundException(`Brand #${id} not found`);
-    }
-    this.brands.splice(index, 1);
-    return true;
+    this.brandRepository.delete(id);
   }
 }
