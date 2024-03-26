@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 
 import { User } from './user.entity';
+import { Order } from './order.entity';
 
 @Entity()
 export class Customer {
@@ -37,4 +38,7 @@ export class Customer {
 
   @OneToMany(() => User, (user) => user.customer, { nullable: true })
   users: User[];
+
+  @OneToMany(() => Order, (order) => order.customer)
+  orders: Order[];
 }
