@@ -15,7 +15,7 @@ import { ParseIntPipe } from '../../common/parse-int.pipe';
 import {
   CreateProductDto,
   UpdateProductDto,
-  PaginationProduct,
+  PaginationProductDto,
 } from '../dtos/products.dto';
 
 import { ProductsService } from './../services/products.service';
@@ -25,7 +25,7 @@ export class ProductsController {
   constructor(private productsService: ProductsService) {}
 
   @Get()
-  getProducts(@Query() params: PaginationProduct) {
+  getProducts(@Query() params: PaginationProductDto) {
     return this.productsService.findAll(params);
   }
 

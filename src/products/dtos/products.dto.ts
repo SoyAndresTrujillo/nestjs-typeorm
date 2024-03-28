@@ -7,6 +7,7 @@ import {
   IsArray,
   IsOptional,
   Min,
+  ValidateIf,
 } from 'class-validator';
 import { PartialType, ApiProperty } from '@nestjs/swagger';
 
@@ -50,7 +51,7 @@ export class CreateProductDto {
   readonly categoriesIds: number[];
 }
 
-export class PaginationProduct {
+export class PaginationProductDto {
   @IsOptional()
   @IsPositive()
   readonly limit: number;
@@ -58,6 +59,14 @@ export class PaginationProduct {
   @IsOptional()
   @Min(0)
   readonly offset: number;
+
+  @ValidateIf((item) => item.maxPrice)
+  @IsPositive()
+  readonly minPrice: number;
+
+  @ValidateIf((item) => item.minPrice)
+  @IsPositive()
+  readonly maxPrice: number;
 }
 
 export class UpdateProductDto extends PartialType(CreateProductDto) {}
