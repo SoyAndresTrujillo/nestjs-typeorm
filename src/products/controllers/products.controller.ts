@@ -8,10 +8,15 @@ import {
   Delete,
   HttpStatus,
   HttpCode,
+  Query,
 } from '@nestjs/common';
 
 import { ParseIntPipe } from '../../common/parse-int.pipe';
-import { CreateProductDto, UpdateProductDto } from '../dtos/products.dto';
+import {
+  CreateProductDto,
+  UpdateProductDto,
+  PaginationProduct,
+} from '../dtos/products.dto';
 
 import { ProductsService } from './../services/products.service';
 
@@ -20,8 +25,8 @@ export class ProductsController {
   constructor(private productsService: ProductsService) {}
 
   @Get()
-  getProducts() {
-    return this.productsService.findAll();
+  getProducts(@Query() params: PaginationProduct) {
+    return this.productsService.findAll(params);
   }
 
   @Get('filter')
