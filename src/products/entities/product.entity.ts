@@ -5,12 +5,14 @@ import {
   ManyToOne,
   ManyToMany,
   JoinTable,
+  Index,
 } from 'typeorm';
 
 import { Brand } from './brand.entity';
 import { Category } from './category.entity';
 
 @Entity()
+@Index(['price', 'stock'])
 export class Product {
   @PrimaryGeneratedColumn()
   id: number;
