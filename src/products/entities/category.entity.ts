@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { Product } from './product.entity';
 
-@Entity()
+@Entity({ name: 'categories' })
 export class Category {
   @PrimaryGeneratedColumn()
   id: number;
@@ -20,13 +20,13 @@ export class Category {
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
   })
-  create_at: Date;
+  created_at: Date;
 
   @UpdateDateColumn({
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
   })
-  update_at: Date;
+  updated_at: Date;
 
   @ManyToMany(() => Product, (products) => products.categories)
   products: Product[];

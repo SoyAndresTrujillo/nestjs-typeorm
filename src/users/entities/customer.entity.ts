@@ -10,7 +10,7 @@ import {
 import { User } from './user.entity';
 import { Order } from './order.entity';
 
-@Entity()
+@Entity({ name: 'customers' })
 export class Customer {
   @PrimaryGeneratedColumn()
   id: number;
@@ -25,16 +25,16 @@ export class Customer {
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
   })
-  create_at: Date;
+  created_at: Date;
 
   @UpdateDateColumn({
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
   })
-  update_at: Date;
+  updated_at: Date;
 
   @Column({ type: 'varchar', length: 255 })
-  phone: string;
+  phone_number: string;
 
   @OneToMany(() => User, (user) => user.customer, { nullable: true })
   users: User[];

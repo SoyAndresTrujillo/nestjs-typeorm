@@ -5,12 +5,13 @@ import {
   Entity,
   Column,
   ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 
 import { Product } from '../../products/entities/product.entity';
 import { Order } from './order.entity';
 
-@Entity()
+@Entity({ name: 'orders_items' })
 export class OrderItem {
   @PrimaryGeneratedColumn()
   id: number;
@@ -19,20 +20,22 @@ export class OrderItem {
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
   })
-  createAt: Date;
+  created_at: Date;
 
   @UpdateDateColumn({
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
   })
-  updateAt: Date;
+  updated_at: Date;
 
   @Column({ type: 'int' }) // columna que se agrega a la relacion
   quantity: number;
 
   @ManyToOne(() => Product) // en este caso no es funcional la relación bidireccional
+  @JoinColumn({ name: 'product_id' })
   product: Product;
 
   @ManyToOne(() => Order, (order) => order.items)
+  @JoinColumn({ name: 'order_id' })
   order: Order;
 }
